@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
 import CartProductPill from '../components/CartProductPill';
-import { getProductsInCart } from '../helpers/api'
+import { getProductsInCart, generateNewCart } from '../helpers/api'
 import { Link } from 'react-router-dom';
 import { globalContext } from "../context/GlobalStore"
 
@@ -26,9 +26,22 @@ const Cart = () => {
         }
     }
 
+    async function createNewCart() {
+        const cartId = localStorage.getItem('cartId')
+        if (!cartId) {
+          try {
+            const { data } = await generateNewCart();
+            localStorage.setItem('cartId', data)
+          } catch (error) {
+            console.log('Error in creating cart:', error)
+          }
+        }
+      }
+
     function resetAll() {
         localStorage.removeItem('cartId')
         dispatch({ type: 'RESET_PRODUCTS' });
+        createNewCart();
         setSuccess(true)
     }
 
