@@ -137,7 +137,7 @@ const EditProductPopup: React.FC<EditProductPopupProps> = ({ show, handler, prod
                                             px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
                                                     id="inline-full-stock" type="text" placeholder="Product name"
                                                     value={newStock}
-                                                    onChange={(e) => setNewStock(+e.target.value)}
+                                                    onChange={(e) => setNewStock(parseInt(e.target.value))}
                                                     onFocus={() => setError('')}
                                                 />
                                                 <input

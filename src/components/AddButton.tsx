@@ -16,7 +16,7 @@ const AddButton: React.FC<AddBtnProps> = ({ id }) => {
         try {
             const cartId = localStorage.getItem('cartId')
             const { data } = await addProductToCart(cartId, {
-                productId: (+id)
+                productId: (parseInt(id))
             });
             if(data) {
                 console.log(data)
