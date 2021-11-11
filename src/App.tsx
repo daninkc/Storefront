@@ -1,25 +1,50 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes
+} from "react-router-dom";
+import { useEffect } from "react";
+import { Home, Cart } from './views'
+import Navbar from './components/Navbar';
+import './styles/custom.scss';
+import { generateNewCart } from "./helpers/api";
+import { GlobalStore } from "./context/GlobalStore";
+import DeleteProductPopup from "./components/DeleteProductPopup";
 
 function App() {
+
+  async function createNewCart() {
+    const cartId = localStorage.getItem('cartId')
+    if (!cartId) {
+      try {
+        const { data } = await generateNewCart();
+        localStorage.setItem('cartId', data)
+      } catch (error) {
+        console.log('Error in creating cart:', error)
+      }
+    }
+  }
+
+  useEffect(() => {
+    sessionStorage.clear()
+
+    createNewCart();
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GlobalStore>
+    <Router>
+      <div>
+        <Navbar />
+      </div>
+
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path="/cart" element={<Cart />} />
+      </Routes>
+    </Router>
+    </GlobalStore>
+
   );
 }
 

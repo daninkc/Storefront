@@ -1,0 +1,53 @@
+input:checked {
+    ~ .dot {
+    transform: translateX(100%);
+    background-color: #FFE4F4;
+    }
+}
+
+
+body.admin {
+    .editBtn, .deleteBtn {
+        display: block;
+    }
+}
+
+body.user {
+    .editBtn, .deleteBtn, .addNewBtn {
+        display: none;
+    }
+}
+
+body.admin {
+    .addNewBtn {
+        display: flex;
+    }
+}
+
+#addedSuccessfully {
+    transform-origin: top;
+    -webkit-animation: notify 5s ease-in-out infinite;
+    animation: notify 5s ease-in-out infinite;
+}
+
+@-webkit-keyframes notify {
+    0% {transform: scaleX(0);}
+    10% {transform: scaleX(1);}
+    13% {transform: scale(1.1);}
+    16% {transform: scale(1);}
+    55% {transform: scaleX(1);}
+    65% {transform: scaleX(0);}
+    95% {transform: scaleX(0);}
+    100% {transform: scaleX(0);}
+  }
+  
+  @keyframes notify {
+    0% {transform: scaleX(0);}
+    10% {transform: scaleX(1);}
+    13% {transform: scale(1.1);}
+    16% {transform: scale(1);}
+    55% {transform: scaleX(1);}
+    65% {transform: scaleX(0);}
+    95% {transform: scaleX(0);}
+    100% {transform: scaleX(0);}
+  }
