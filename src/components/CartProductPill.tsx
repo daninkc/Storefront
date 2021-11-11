@@ -1,5 +1,6 @@
+import { useState } from "react"
 import { IoIosRemoveCircleOutline } from "react-icons/io"
-import { deleteProductFromCart } from "../helpers/api"
+import { deleteProductFromCart, getProductsInCart } from "../helpers/api"
 
 interface CartProductPillProps {
     id: string;
@@ -10,6 +11,7 @@ interface CartProductPillProps {
 }
 
 const CartProductPill: React.FC<CartProductPillProps> = ({ id, name, price, imageUrl, code }) => {
+    const [productsInCart, setProductsInCart] = useState([]);
 
     //delete product from cart
     async function removeItem(id: string) {
@@ -19,7 +21,14 @@ const CartProductPill: React.FC<CartProductPillProps> = ({ id, name, price, imag
             const { data } = await deleteProductFromCart(cartId, id)
             console.log(data)
             if (data) {
-                window.location.reload()
+                //Tengo que hacer un nuevo fetch pues glitch
+                //Traigo los productos del carrito y si hay, los mapeo
+                try {
+                    const { data } = await getProductsInCart(cartId)
+                    setProductsInCart(data)                       
+                } catch (error) {
+                    console.log(error)
+                }
             }
         } catch (error) {
             console.log(error)
@@ -27,21 +36,28 @@ const CartProductPill: React.FC<CartProductPillProps> = ({ id, name, price, imag
     }
 
     return (
-        <div id={id} className="flex justify-between items-center mt-6 pt-6">
-        <div className="flex items-center"> 
-        <img src={imageUrl} width="60" className="rounded-full mr-6"/>
-            <div className="flex flex-col ml-3"> <span className="md:text-md font-medium">{name}</span> 
-            <span className="text-xs font-light text-gray-400">#{code}</span> </div>
-        </div>
-        <div className="flex justify-center items-center">
-            <div className="pr-8 "> <span className="text-md font-medium">${price}</span> </div>
-            <div>
-                <button type="button" onClick={() => removeItem(id)}>
-            <IoIosRemoveCircleOutline size="25" />
-            </button>
-            </div>
-        </div>
-    </div>
+        <>
+            {productsInCart.length === 0 &&
+                <div id={id} className="flex justify-between items-center mt-6 pt-6">
+                    <div className="flex items-center">
+                        <img src={imageUrl} width="60" className="rounded-full mr-6" />
+                        <div className="flex flex-col ml-3"> <span className="md:text-md font-medium">{name}</span>
+                            <span className="text-xs font-light text-gray-400">#{code}</span> </div>
+                    </div>
+                    <div className="flex justify-center items-center">
+                        <div className="pr-8 "> <span className="text-md font-medium">${price}</span> </div>
+                        <div>
+                            <button type="button" onClick={() => removeItem(id)}>
+                                <IoIosRemoveCircleOutline size="25" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+            {
+                
+            }
+        </>
     )
 }
 export default CartProductPill;

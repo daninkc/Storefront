@@ -16,11 +16,14 @@ const AddButton: React.FC<AddBtnProps> = ({ id }) => {
         try {
             const cartId = localStorage.getItem('cartId')
             const { data } = await addProductToCart(cartId, {
-                productId: id
+                productId: (+id)
             });
+            if(data) {
+                console.log(data)
             sendToGlobal(data.products.length)
             setPopup('block')
             setTimeout(() => {setPopup('hidden')}, 5000);
+            }
         } catch (error) {
             console.log(error)
         }
