@@ -1,13 +1,12 @@
 import axios from "axios";
 
-const BASE_URL = `https://delicious-tan-adjustment.glitch.me/api`
+const BASE_URL = `http://localhost:8080/api`
 const getHeaders = () => {
     const headers = {
         'admin': localStorage.getItem('mode') === 'admin' ? 'true' : 'false',
         'Accept': 'application/json',
         'Content-Type': 'application/json',
     }
-    console.log(headers)
     return headers
 }
 

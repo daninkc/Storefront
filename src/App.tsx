@@ -9,7 +9,6 @@ import Navbar from './components/Navbar';
 import './styles/custom.scss';
 import { generateNewCart } from "./helpers/api";
 import { GlobalStore } from "./context/GlobalStore";
-import DeleteProductPopup from "./components/DeleteProductPopup";
 
 function App() {
 

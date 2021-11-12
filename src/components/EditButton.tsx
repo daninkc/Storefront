@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { FiEdit3 } from "react-icons/fi"
 import { getProductById } from "../helpers/api"
 import EditProductPopup from './EditProductPopup'

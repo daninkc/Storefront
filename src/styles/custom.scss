@@ -26,8 +26,8 @@ body.admin {
 
 #addedSuccessfully {
     transform-origin: top;
-    -webkit-animation: notify 5s ease-in-out infinite;
-    animation: notify 5s ease-in-out infinite;
+    -webkit-animation: notify 3s ease-in-out infinite;
+    animation: notify 3s ease-in-out infinite;
 }
 
 @-webkit-keyframes notify {
