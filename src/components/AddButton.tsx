@@ -15,6 +15,7 @@ const AddButton: React.FC<AddBtnProps> = ({ id }) => {
     async function addProduct(id: string) {
         try {
             const cartId = localStorage.getItem('cartId')
+            console.log(cartId)
             const { data } = await addProductToCart(cartId, {
                 productId: (parseInt(id))
             });
