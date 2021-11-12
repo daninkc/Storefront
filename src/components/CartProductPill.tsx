@@ -1,6 +1,7 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { IoIosRemoveCircleOutline } from "react-icons/io"
-import { deleteProductFromCart } from "../helpers/api"
+import { deleteProductFromCart, getProductsInCart } from "../helpers/api"
+import { globalContext } from "../context/GlobalStore";
 
 interface CartProductPillProps {
     id: string;
@@ -12,6 +13,7 @@ interface CartProductPillProps {
 
 const CartProductPill: React.FC<CartProductPillProps> = ({ id, name, price, imageUrl, code }) => {
     const [visible, setVisible] = useState('flex')
+    const { dispatch } = useContext(globalContext);
 
     async function removeItem(id: string) {
         try {
@@ -19,10 +21,17 @@ const CartProductPill: React.FC<CartProductPillProps> = ({ id, name, price, imag
             const { data } = await deleteProductFromCart(cartId, id)
             if (data) {
                 setVisible('hidden')
+                const { data } = await getProductsInCart(cartId)
+                const productQuantity = data.length;
+                sendToGlobal(productQuantity)
             }
         } catch (error) {
             console.log(error)
         }
+    }
+
+    async function sendToGlobal(productQuantity: number) {
+        dispatch({ type: 'SET_QUANTITY', payload: productQuantity });
     }
 
     return (
